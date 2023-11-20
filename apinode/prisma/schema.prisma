@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Nomestadorepartidor{
+  idestadorepartidor Int @id  @default(autoincrement())
+  denominacion String
+  repartidor Repartidor[]
+}
+
+model Nomestadopaquete{
+  idestadopaquete Int @id  @default(autoincrement())
+  denominacion String
+  paquete Paquete[]
+}
+
+model Nomestadoenvio{
+  idestadoenvio Int @id  @default(autoincrement())
+  denominacion String
+  envio Envio[]
+}
+
+model Repartidor{
+  idrepartidor Int @id @default(autoincrement())
+  nombre String
+  apellidos String
+  telefono String
+  jwt String
+  cantpaquetes Int  
+  idestadorepartidor Int
+  estadorepartidor Nomestadorepartidor @relation(fields: [idestadorepartidor], references: [idestadorepartidor])
+  envio Envio[]
+} 
+
+model Proveedor{
+  idproveedor Int @id @default(autoincrement())
+  nombre String
+  apellidors String
+  telefono String
+  jwt String
+  paquete Paquete[]
+}
+
+model Paquete{
+    idpaquete Int @id @default(autoincrement())
+    lugarrecogida String
+    municipioregida String
+    barriorecogida String
+    lugarentrega String
+    municipioentrega String
+    barrioentrega String
+    datoscliente String
+    peso Int
+    idproveedor Int
+    idestadopaquete Int
+    proveedor Proveedor @relation(fields: [idproveedor], references: [idproveedor])
+    estadopaquete Nomestadopaquete @relation(fields: [idestadopaquete], references: [idestadopaquete])
+    envio Envio[]
+}
+
+model Envio{
+  idenvio Int @id @default(autoincrement())
+  idpaquete Int
+  idrepartidor Int
+  idestadoenvio Int
+  paquete Paquete @relation(fields: [idpaquete], references: [idpaquete])
+  repartidor Repartidor @relation(fields: [idrepartidor], references: [idrepartidor])
+  estadoenvio Nomestadoenvio @relation(fields: [idestadoenvio], references: [idestadoenvio])
+
+}

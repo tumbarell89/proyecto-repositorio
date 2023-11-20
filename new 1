@@ -1,0 +1,18 @@
+Vamos a desarrollar un pequeño ejercicio practico:
+Hoy en dia un negocio importante es la entrega de paqueterias, encargos y mensages por un repartidor seria ideal desarrollar una aplicacion donde existan repartidores registrados y ahi ellos puedan ver la necesidades de entrega y pedidos de un proveedor a cliente. Y poder tomar de estas necesidades u grupo de acuerdo a lo que puedan transportar por peso y distancia para hacer las entregas.
+Tendriamos:
+Estado repartidor:(offfline, entregando, libre)
+Registro de repartidores: (id, nonombre, apellidos, movil, cantpaquetes, estadorepartidor, jwt)
+Proveedor: (id, nombre, apellidos, movil, jwt)
+estadopaquete: (creado, asignado, en proceso de entrega, entregado)
+Paquete: (Lugar de recogida, MunicipioRecogida, BarrioRecogida,lugar de entrega,BarrioEntrega, MunicipioEntrega, Peso, idproveedor, datoscliente)
+estadoenvio: (creado, asignado, en proceso de entrega, entregado)
+Envio:(idenvio, idpaquete, idrepartidor, estadopaquete)
+
+Necesidades del sistema: 
+Registrar un repartidor con un token (jwt) por un mes
+Registrar un proveedor con un token (jwt) por un mes
+Registrar un paquete
+Asignar un paquete para conformar envio(Debe permitir crear envios por aereas de recogida o por areas de entrega)
+
+La aplicacion visual debe notificar en ambas direcciones
