@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,69 +7,68 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Nomestadorepartidor{
-  idestadorepartidor Int @id  @default(autoincrement())
-  denominacion String
-  repartidor Repartidor[]
+model envio {
+  idenvio        Int             @id @default(autoincrement())
+  idpaquete      Int?
+  idrepartidor   Int?
+  idestadoenvio  Int?
+  nomestadoenvio nomestadoenvio? @relation(fields: [idestadoenvio], references: [idestadoenvio], onDelete: NoAction, onUpdate: NoAction, map: "fkestadipaquete")
+  paquete        paquete?        @relation(fields: [idpaquete], references: [idpaquete], onDelete: NoAction, onUpdate: NoAction, map: "fkidpaquete")
+  repartidor     repartidor?     @relation(fields: [idrepartidor], references: [idrepartidor], onDelete: NoAction, onUpdate: NoAction, map: "fkidrepartidor")
 }
 
-model Nomestadopaquete{
-  idestadopaquete Int @id  @default(autoincrement())
-  denominacion String
-  paquete Paquete[]
+model nomestadoenvio {
+  idestadoenvio Int     @id @default(autoincrement())
+  denominacion  String? @db.VarChar
+  envio         envio[]
 }
 
-model Nomestadoenvio{
-  idestadoenvio Int @id  @default(autoincrement())
-  denominacion String
-  envio Envio[]
+model nomestadopaquete {
+  idestadopaquete Int       @id @default(autoincrement())
+  denominacion    String?   @db.VarChar
+  paquete         paquete[]
 }
 
-model Repartidor{
-  idrepartidor Int @id @default(autoincrement())
-  nombre String
-  apellidos String
-  telefono String
-  jwt String
-  cantpaquetes Int  
-  idestadorepartidor Int
-  estadorepartidor Nomestadorepartidor @relation(fields: [idestadorepartidor], references: [idestadorepartidor])
-  envio Envio[]
-} 
-
-model Proveedor{
-  idproveedor Int @id @default(autoincrement())
-  nombre String
-  apellidors String
-  telefono String
-  jwt String
-  paquete Paquete[]
+model nomestadorepartidor {
+  idestadorepartidor Int          @id @default(autoincrement())
+  denominacion       String?      @db.VarChar
+  repartidor         repartidor[]
 }
 
-model Paquete{
-    idpaquete Int @id @default(autoincrement())
-    lugarrecogida String
-    municipioregida String
-    barriorecogida String
-    lugarentrega String
-    municipioentrega String
-    barrioentrega String
-    datoscliente String
-    peso Int
-    idproveedor Int
-    idestadopaquete Int
-    proveedor Proveedor @relation(fields: [idproveedor], references: [idproveedor])
-    estadopaquete Nomestadopaquete @relation(fields: [idestadopaquete], references: [idestadopaquete])
-    envio Envio[]
+model paquete {
+  idpaquete        Int               @id @default(autoincrement())
+  lugarrecogida    String?
+  municipioregida  String?           @db.VarChar(100)
+  barriorecogida   String?           @db.VarChar(100)
+  lugarentrega     String?
+  municipioentrega String?           @db.VarChar(100)
+  barrioentrega    String?           @db.VarChar(100)
+  datoscliente     String?
+  peso             Decimal?          @db.Decimal
+  idproveedor      Int?
+  idestadopaquete  Int?
+  envio            envio[]
+  nomestadopaquete nomestadopaquete? @relation(fields: [idestadopaquete], references: [idestadopaquete], onDelete: NoAction, onUpdate: NoAction, map: "fkidestadopaquete")
+  proveedor        proveedor?        @relation(fields: [idproveedor], references: [idproveedor], onDelete: NoAction, onUpdate: NoAction, map: "fkidproveedir")
 }
 
-model Envio{
-  idenvio Int @id @default(autoincrement())
-  idpaquete Int
-  idrepartidor Int
-  idestadoenvio Int
-  paquete Paquete @relation(fields: [idpaquete], references: [idpaquete])
-  repartidor Repartidor @relation(fields: [idrepartidor], references: [idrepartidor])
-  estadoenvio Nomestadoenvio @relation(fields: [idestadoenvio], references: [idestadoenvio])
+model proveedor {
+  idproveedor Int       @id @default(autoincrement())
+  nombre      String?   @db.VarChar(255)
+  apellidors  String?   @db.VarChar(255)
+  telefono    String?   @db.VarChar(8)
+  jwt         String?
+  paquete     paquete[]
+}
 
+model repartidor {
+  idrepartidor        Int                  @id @default(autoincrement())
+  nombre              String?              @db.VarChar(255)
+  apellidos           String?              @db.VarChar(255)
+  telefono            String?              @db.VarChar(8)
+  jwt                 String?
+  idestadorepartidor  Int?
+  cantpaquetes        Int?
+  envio               envio[]
+  nomestadorepartidor nomestadorepartidor? @relation(fields: [idestadorepartidor], references: [idestadorepartidor], onDelete: NoAction, onUpdate: NoAction, map: "fkidestadorepartidor")
 }
