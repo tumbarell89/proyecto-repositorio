@@ -1,1 +1,3 @@
 /apinode/node_modules
+/apinode/logs/*.log
+/apinode/logs

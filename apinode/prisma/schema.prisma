@@ -58,6 +58,8 @@ model proveedor {
   apellidors  String?   @db.VarChar(255)
   telefono    String?   @db.VarChar(8)
   jwt         String?
+  usuario     String    @unique(map: "usuario_ck_pv") @db.VarChar(100)
+  password    String    @db.VarChar(500)
   paquete     paquete[]
 }
 
@@ -69,6 +71,8 @@ model repartidor {
   jwt                 String?
   idestadorepartidor  Int?
   cantpaquetes        Int?
+  usuario             String               @unique(map: "usaurio_ck") @db.VarChar(100)
+  password            String               @db.VarChar(500)
   envio               envio[]
   nomestadorepartidor nomestadorepartidor? @relation(fields: [idestadorepartidor], references: [idestadorepartidor], onDelete: NoAction, onUpdate: NoAction, map: "fkidestadorepartidor")
 }

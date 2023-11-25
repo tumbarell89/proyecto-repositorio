@@ -13,7 +13,7 @@ dotenv.config();
 console.log(process.env.PORTBD);
 
 const app = express();
-const prisma = new PrismaClient();
+export const prisma = new PrismaClient();
 async function checkDatabaseConnection() {
     try {
       await prisma.$connect();
@@ -26,7 +26,7 @@ async function checkDatabaseConnection() {
       await prisma.$disconnect();
       console.log('La conexión a la base de datos se ha cerrado.');
     }
-  }
+}
 app.set('port', process.env.PORT);
 
 

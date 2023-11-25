@@ -12,25 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addrepartidor = exports.repartidores = exports.tiposdenvio = void 0;
+exports.addenvio = exports.envios = void 0;
 const client_1 = require("@prisma/client");
 const repartidor_1 = __importDefault(require("../models/repartidor"));
 const prisma = new client_1.PrismaClient();
-const tiposdenvio = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const envios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let repart = new repartidor_1.default();
+    let envios = yield repart.listarenvios();
+    return res.status(200).json({ 'envios': envios });
+});
+exports.envios = envios;
+const addenvio = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('sfsdf');
     let tiposenvios = yield prisma.nomestadoenvio.count();
     return res.status(200).json({ 'tiposenvios': tiposenvios });
 });
-exports.tiposdenvio = tiposdenvio;
-const repartidores = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let repart = new repartidor_1.default();
-    let result = yield repart.listarrepartidores();
-    return res.status(200).json({ 'data': result });
-});
-exports.repartidores = repartidores;
-const addrepartidor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let rep = req.body;
-    let repart = new repartidor_1.default();
-    let result = yield repart.addproveedores(rep);
-    return res.status(200).json({ 'repartidor': result });
-});
-exports.addrepartidor = addrepartidor;
+exports.addenvio = addenvio;

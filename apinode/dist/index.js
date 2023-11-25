@@ -35,6 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.prisma = void 0;
 const express_1 = __importStar(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
@@ -48,11 +49,11 @@ const client_1 = require("@prisma/client");
 dotenv_1.default.config();
 console.log(process.env.PORTBD);
 const app = (0, express_1.default)();
-const prisma = new client_1.PrismaClient();
+exports.prisma = new client_1.PrismaClient();
 function checkDatabaseConnection() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield prisma.$connect();
+            yield exports.prisma.$connect();
             console.log('La conexión a la base de datos se ha establecido correctamente.');
             // Aquí puedes iniciar tu API u otras operaciones después de que se haya establecido la conexión
         }
@@ -61,7 +62,7 @@ function checkDatabaseConnection() {
             // Aquí puedes manejar el error de conexión, como cerrar la aplicación o mostrar un mensaje de error
         }
         finally {
-            yield prisma.$disconnect();
+            yield exports.prisma.$disconnect();
             console.log('La conexión a la base de datos se ha cerrado.');
         }
     });

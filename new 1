@@ -10,9 +10,13 @@ estadoenvio: (creado, asignado, en proceso de entrega, entregado)
 Envio:(idenvio, idpaquete, idrepartidor, estadopaquete)
 
 Necesidades del sistema: 
-Registrar un repartidor con un token (jwt) por un mes
-Registrar un proveedor con un token (jwt) por un mes
-Registrar un paquete
+Registrar, modificar, eliminar un repartidor con un token (jwt) por un mes
+
+Registrar, modificar, eliminar un proveedor con un token (jwt) por un mes
+Registrar, modificar, eliminar un paquete
+crear, modificar, eliminar, cancelar un envio
 Asignar un paquete para conformar envio(Debe permitir crear envios por aereas de recogida o por areas de entrega)
+Asignar envio a repartidor
+Repartidor selecciona un envio
 
 La aplicacion visual debe notificar en ambas direcciones
