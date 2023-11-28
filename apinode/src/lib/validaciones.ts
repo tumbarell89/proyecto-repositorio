@@ -7,7 +7,7 @@ export function vTokenAcceso (req: Request, res:Response, next: NextFunction){
     next();
 }
 
-export function vRegistrarPersona (req: Request, res:Response, next: NextFunction){
+export function vRegistrarProveedor (req: Request, res:Response, next: NextFunction){
     console.log('validacion registro');
     const validaschema = Joi.object({
         nombre: Joi.string().max(255).required(),
@@ -15,7 +15,36 @@ export function vRegistrarPersona (req: Request, res:Response, next: NextFunctio
         telefono: Joi.string().required(),
         usuario: Joi.string().required(),
         password: Joi.string().required()
-    })
+    }).options({ abortEarly: false });
+
+    let proveedor: {  nombre : String,
+                        apellidos: String,
+                        telefono: String,
+                        usuario: String,
+                        password: String
+                }= req.body;
+
+    console.log(proveedor);
+
+    let valid = validaschema.validate(proveedor);
+    console.log(valid);
+    
+    if(valid.error) throw new Error("Error: data "+valid.error);
+
+    next();
+}
+
+export function vRegistrarRepartidor (req: Request, res:Response, next: NextFunction){
+    console.log('validacion registro');
+    const validaschema = Joi.object({
+        nombre: Joi.string().max(255).required(),
+        apellidos: Joi.string().max(255).required(),
+        telefono: Joi.string().required(),
+        usuario: Joi.string().required(),
+        password: Joi.string().required(),
+        cantpaquetes: Joi.number().min(1)
+    }).options({ abortEarly: false });
+
     let repartidor: {  nombre : String,
                         apellidos: String,
                         telefono: String,
@@ -23,13 +52,41 @@ export function vRegistrarPersona (req: Request, res:Response, next: NextFunctio
                         password: String
                 }= req.body;
 
+    console.log(repartidor);
+
     let valid = validaschema.validate(repartidor);
+    console.log(valid);
     
-    if(valid) throw new Error("Error: data "+valid.error);
+    if(valid.error) throw new Error("Error: data "+valid.error);
 
     next();
 }
 
+export function vEstadoPaquete(req: Request, res:Response, next: NextFunction){
+    let idpaque  = req.params;
+    const validaschema =  Joi.object({
+        idpaquete: Joi.number().required()
+    });
+    let valid = validaschema.validate(idpaque);
+    
+    if(valid.error) throw new Error("Error: data "+valid.error);
+
+    next();
+
+}
+
+export function vPorEnvio(req: Request, res:Response, next: NextFunction){
+    let idenvio  = req.params;
+    const validaschema =  Joi.object({
+        idenvio: Joi.number().required()
+    });
+    let valid = validaschema.validate(idenvio);
+    
+    if(valid.error) throw new Error("Error: data "+valid.error);
+
+    next();
+
+}
 
 export function vRegistrarPaquete(req: Request, res:Response, next: NextFunction){
     console.log('validacion vRegistrarPaquete');

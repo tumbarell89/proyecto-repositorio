@@ -1,9 +1,9 @@
 import { Router, NextFunction } from "express";
-import { addrepartidor, repartidores, tiposdenvio } from "../controllers/repartidor";
-import { addproveedores, proveedores } from "../controllers/proveedores";
-import { addpaquete, paquetes } from "../controllers/paquete";
-import { addenvio, envios } from "../controllers/envio";
-import { vRegistrarEnvio, vRegistrarPaquete, vRegistrarPersona, vTokenAcceso } from "../lib/validaciones";
+import { addrepartidor, repartidores, tiposdenvio } from "../controllers/repartidor.controllers";
+import { addproveedores, proveedores } from "../controllers/proveedores.controllers";
+import { addpaquete, estadopaquete, listarpaquetesbyidenvio, paquetes } from "../controllers/paquete.controllers";
+import { addenvio, envios } from "../controllers/envio.controllers";
+import { vEstadoPaquete, vPorEnvio, vRegistrarEnvio, vRegistrarPaquete, vRegistrarProveedor, vRegistrarRepartidor, vTokenAcceso } from "../lib/validaciones";
 
 const rutas = Router();
 //middlewares para las rutas
@@ -16,13 +16,17 @@ rutas.get('/tiposdenvio', tiposdenvio);
 
 rutas.get('/repartidores', repartidores);
 
-rutas.post('/repartidores',vRegistrarPersona, addrepartidor);
+rutas.post('/repartidores',vRegistrarRepartidor, addrepartidor);
 
 rutas.get('/proveedores', proveedores);
 
-rutas.post('/proveedores',vRegistrarPersona, addproveedores);
+rutas.post('/proveedores',vRegistrarProveedor, addproveedores);
 
 rutas.get('/paquete', paquetes);
+
+rutas.get('/estadopaquete/:idpaquete', vEstadoPaquete, estadopaquete);
+
+rutas.get('/listarpaquetesbyidenvio/:idenvio', vPorEnvio, listarpaquetesbyidenvio);
 
 rutas.post('/paquete', vRegistrarPaquete, addpaquete);
 

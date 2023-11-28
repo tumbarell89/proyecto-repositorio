@@ -1,24 +1,10 @@
-import { PrismaClient, envio, repartidor  } from "@prisma/client"
-import { proveedores } from "../controllers/proveedores"
+import { envio, repartidor  } from "@prisma/client"
 import { prisma } from "../index";
-import { number, string } from "joi";
 import jwt from "jsonwebtoken";
 import { encriptarcontrasenna } from "../lib/validaciones";
-import { NotIn } from "sequelize-typescript";
-import { notEqual } from "assert";
-
 class Repartidor {
-    /*private listaenvios:[{
-        nomestadoenvio: {
-            denominacion: String
-        },
-        paquete: {
-            lugarentrega: String,
-            lugarrecogida: String,
-            datoscliete: String
-        }}]= null;*/
     
-    addproveedores = async (repartidor: repartidor): Promise<repartidor>=> {
+    addrepartidores = async (repartidor: repartidor): Promise<repartidor>=> {
         var res = new Date();
         res.setDate(res.getDate() + 30);
         let token = jwt.sign({user: repartidor.usuario, fecha: new Date()}, process.env.SECRET_TOKEN ||'webToken');
@@ -46,33 +32,20 @@ class Repartidor {
         return repartidores;
     }
     
-    listarenvios =async ():Promise<Array<any>> => {
+    listarenvios =async ():Promise<envio[]> => {
         console.log('6467');
-        let envios: Array<any>= await prisma.envio.findMany({
+        let envios: envio[]= await prisma.envio.findMany({
             where: {
                 idestadoenvio: {in:[1]}
             },
-            select: {
-                nomestadoenvio: {
-                    select:{
-                        denominacion: true
-                    }
-                },
-                paquete:{
-                    select: {
-                        lugarentrega: true,
-                        lugarrecogida: true,
-                        datoscliente: true
-                    }
-                }
+            include: {
+                nomestadoenvio : true,
+                paquete: true,
+                repartidor: true
             }
         });
-        console.log(envios);
+        //console.log(envios);
         return envios;
     }
 }
 export default Repartidor;
-
-
-
-

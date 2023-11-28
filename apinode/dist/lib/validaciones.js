@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.encriptarcontrasenna = exports.vRegistrarEnvio = exports.vRegistrarPaquete = exports.vRegistrarPersona = exports.vTokenAcceso = void 0;
+exports.encriptarcontrasenna = exports.vRegistrarEnvio = exports.vRegistrarPaquete = exports.vPorEnvio = exports.vEstadoPaquete = exports.vRegistrarRepartidor = exports.vRegistrarProveedor = exports.vTokenAcceso = void 0;
 const joi_1 = __importDefault(require("joi"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 function vTokenAcceso(req, res, next) {
@@ -20,7 +20,7 @@ function vTokenAcceso(req, res, next) {
     next();
 }
 exports.vTokenAcceso = vTokenAcceso;
-function vRegistrarPersona(req, res, next) {
+function vRegistrarProveedor(req, res, next) {
     console.log('validacion registro');
     const validaschema = joi_1.default.object({
         nombre: joi_1.default.string().max(255).required(),
@@ -28,14 +28,57 @@ function vRegistrarPersona(req, res, next) {
         telefono: joi_1.default.string().required(),
         usuario: joi_1.default.string().required(),
         password: joi_1.default.string().required()
-    });
-    let repartidor = req.body;
-    let valid = validaschema.validate(repartidor);
-    if (valid)
+    }).options({ abortEarly: false });
+    let proveedor = req.body;
+    console.log(proveedor);
+    let valid = validaschema.validate(proveedor);
+    console.log(valid);
+    if (valid.error)
         throw new Error("Error: data " + valid.error);
     next();
 }
-exports.vRegistrarPersona = vRegistrarPersona;
+exports.vRegistrarProveedor = vRegistrarProveedor;
+function vRegistrarRepartidor(req, res, next) {
+    console.log('validacion registro');
+    const validaschema = joi_1.default.object({
+        nombre: joi_1.default.string().max(255).required(),
+        apellidos: joi_1.default.string().max(255).required(),
+        telefono: joi_1.default.string().required(),
+        usuario: joi_1.default.string().required(),
+        password: joi_1.default.string().required(),
+        cantpaquetes: joi_1.default.number().min(1)
+    }).options({ abortEarly: false });
+    let repartidor = req.body;
+    console.log(repartidor);
+    let valid = validaschema.validate(repartidor);
+    console.log(valid);
+    if (valid.error)
+        throw new Error("Error: data " + valid.error);
+    next();
+}
+exports.vRegistrarRepartidor = vRegistrarRepartidor;
+function vEstadoPaquete(req, res, next) {
+    let idpaque = req.params;
+    const validaschema = joi_1.default.object({
+        idpaquete: joi_1.default.number().required()
+    });
+    let valid = validaschema.validate(idpaque);
+    if (valid.error)
+        throw new Error("Error: data " + valid.error);
+    next();
+}
+exports.vEstadoPaquete = vEstadoPaquete;
+function vPorEnvio(req, res, next) {
+    let idenvio = req.params;
+    const validaschema = joi_1.default.object({
+        idenvio: joi_1.default.number().required()
+    });
+    let valid = validaschema.validate(idenvio);
+    if (valid.error)
+        throw new Error("Error: data " + valid.error);
+    next();
+}
+exports.vPorEnvio = vPorEnvio;
 function vRegistrarPaquete(req, res, next) {
     console.log('validacion vRegistrarPaquete');
     next();

@@ -15,43 +15,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../index");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const validaciones_1 = require("../lib/validaciones");
-class Repartidor {
+class Proveedor {
     constructor() {
-        /*private listaenvios:[{
-            nomestadoenvio: {
-                denominacion: String
-            },
-            paquete: {
-                lugarentrega: String,
-                lugarrecogida: String,
-                datoscliete: String
-            }}]= null;*/
-        this.addproveedores = (repartidor) => __awaiter(this, void 0, void 0, function* () {
+        this.addproveedores = (proveedor) => __awaiter(this, void 0, void 0, function* () {
             var res = new Date();
             res.setDate(res.getDate() + 30);
-            let token = jsonwebtoken_1.default.sign({ user: repartidor.usuario, fecha: new Date() }, process.env.SECRET_TOKEN || 'webToken');
-            let pass = yield (0, validaciones_1.encriptarcontrasenna)(repartidor.password);
-            let rep = yield index_1.prisma.repartidor.create({
+            let token = jsonwebtoken_1.default.sign({ user: proveedor.usuario, fecha: new Date() }, process.env.SECRET_TOKEN || 'webToken');
+            let pass = yield (0, validaciones_1.encriptarcontrasenna)(proveedor.password);
+            let rep = yield index_1.prisma.proveedor.create({
                 data: {
-                    nombre: repartidor.nombre,
-                    apellidos: repartidor.apellidos,
-                    telefono: repartidor.telefono,
-                    usuario: repartidor.usuario,
+                    nombre: proveedor.nombre,
+                    apellidos: proveedor.apellidos,
+                    telefono: proveedor.telefono,
+                    usuario: proveedor.usuario,
                     password: pass,
-                    cantpaquetes: repartidor.cantpaquetes,
-                    idestadorepartidor: 1,
                     jwt: token
                 }
             });
             return rep;
         });
-        this.listarrepartidores = () => __awaiter(this, void 0, void 0, function* () {
-            const repartidores = yield index_1.prisma.repartidor.findMany({
-                where: {
-                    idestadorepartidor: { not: 2 }
-                }
-            });
-            return repartidores;
+        this.listarproveedores = () => __awaiter(this, void 0, void 0, function* () {
+            const proveedores = yield index_1.prisma.proveedor.findMany({});
+            return proveedores;
         });
         this.listarenvios = () => __awaiter(this, void 0, void 0, function* () {
             console.log('6467');
@@ -70,4 +55,4 @@ class Repartidor {
         });
     }
 }
-exports.default = Repartidor;
+exports.default = Proveedor;

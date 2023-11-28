@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
-import Repartidor from "../models/repartidor";
+import Repartidor from "../models/repartidor.models.";
 const prisma = new PrismaClient();
 
 export const envios = async (req: Request, res:Response):Promise<Response> => {

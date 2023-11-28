@@ -1,7 +1,7 @@
 import { PrismaClient, repartidor } from "@prisma/client";
 import { Request, Response } from "express";
 import { join } from "path";
-import Repartidor from "../models/repartidor";
+import Repartidor from "../models/repartidor.models.";
 
 const prisma = new PrismaClient();
 export const tiposdenvio =async (req: Request, res:Response):Promise<Response> => {
@@ -20,7 +20,7 @@ export const repartidores =async (req: Request, res:Response):Promise<Response> 
 export const addrepartidor =async (req: Request, res:Response):Promise<Response> => {
     let rep: repartidor= req.body;
     let repart = new Repartidor();
-    let result= await repart.addproveedores(rep);
+    let result= await repart.addrepartidores(rep);
     return res.status(200).json({'repartidor': result});    
 }
 

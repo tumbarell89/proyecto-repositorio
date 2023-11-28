@@ -17,16 +17,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const validaciones_1 = require("../lib/validaciones");
 class Repartidor {
     constructor() {
-        /*private listaenvios:[{
-            nomestadoenvio: {
-                denominacion: String
-            },
-            paquete: {
-                lugarentrega: String,
-                lugarrecogida: String,
-                datoscliete: String
-            }}]= null;*/
-        this.addproveedores = (repartidor) => __awaiter(this, void 0, void 0, function* () {
+        this.addrepartidores = (repartidor) => __awaiter(this, void 0, void 0, function* () {
             var res = new Date();
             res.setDate(res.getDate() + 30);
             let token = jsonwebtoken_1.default.sign({ user: repartidor.usuario, fecha: new Date() }, process.env.SECRET_TOKEN || 'webToken');

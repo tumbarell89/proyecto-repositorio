@@ -9,12 +9,11 @@ datasource db {
 
 model envio {
   idenvio        Int             @id @default(autoincrement())
-  idpaquete      Int?
   idrepartidor   Int?
   idestadoenvio  Int?
   nomestadoenvio nomestadoenvio? @relation(fields: [idestadoenvio], references: [idestadoenvio], onDelete: NoAction, onUpdate: NoAction, map: "fkestadipaquete")
-  paquete        paquete?        @relation(fields: [idpaquete], references: [idpaquete], onDelete: NoAction, onUpdate: NoAction, map: "fkidpaquete")
   repartidor     repartidor?     @relation(fields: [idrepartidor], references: [idrepartidor], onDelete: NoAction, onUpdate: NoAction, map: "fkidrepartidor")
+  paquete        paquete[]
 }
 
 model nomestadoenvio {
@@ -47,7 +46,8 @@ model paquete {
   peso             Decimal?          @db.Decimal
   idproveedor      Int?
   idestadopaquete  Int?
-  envio            envio[]
+  idenvio          Int?
+  envio            envio?            @relation(fields: [idenvio], references: [idenvio], onDelete: NoAction, onUpdate: NoAction, map: "fkenvio")
   nomestadopaquete nomestadopaquete? @relation(fields: [idestadopaquete], references: [idestadopaquete], onDelete: NoAction, onUpdate: NoAction, map: "fkidestadopaquete")
   proveedor        proveedor?        @relation(fields: [idproveedor], references: [idproveedor], onDelete: NoAction, onUpdate: NoAction, map: "fkidproveedir")
 }
@@ -55,11 +55,12 @@ model paquete {
 model proveedor {
   idproveedor Int       @id @default(autoincrement())
   nombre      String?   @db.VarChar(255)
-  apellidors  String?   @db.VarChar(255)
+  apellidos   String?   @db.VarChar(255)
   telefono    String?   @db.VarChar(8)
   jwt         String?
   usuario     String    @unique(map: "usuario_ck_pv") @db.VarChar(100)
   password    String    @db.VarChar(500)
+  id          Int       @default(autoincrement())
   paquete     paquete[]
 }
 
