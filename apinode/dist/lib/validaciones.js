@@ -81,6 +81,21 @@ function vPorEnvio(req, res, next) {
 exports.vPorEnvio = vPorEnvio;
 function vRegistrarPaquete(req, res, next) {
     console.log('validacion vRegistrarPaquete');
+    let paquet = req.body;
+    const validaschema = joi_1.default.object({
+        lugarrecogida: joi_1.default.string().required(),
+        municipioregida: joi_1.default.string().required(),
+        barriorecogida: joi_1.default.string().required(),
+        lugarentrega: joi_1.default.string().required(),
+        municipioentrega: joi_1.default.string().required(),
+        barrioentrega: joi_1.default.string().required(),
+        datoscliente: joi_1.default.string().required(),
+        peso: joi_1.default.number().min(0.1).required(),
+        idproveedor: joi_1.default.number().required()
+    });
+    let valid = validaschema.validate(paquet);
+    if (valid.error)
+        throw new Error("Error: data " + valid.error);
     next();
 }
 exports.vRegistrarPaquete = vRegistrarPaquete;

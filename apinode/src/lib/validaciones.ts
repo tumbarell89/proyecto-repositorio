@@ -90,6 +90,33 @@ export function vPorEnvio(req: Request, res:Response, next: NextFunction){
 
 export function vRegistrarPaquete(req: Request, res:Response, next: NextFunction){
     console.log('validacion vRegistrarPaquete');
+    let paquet : {
+        lugarrecogida :   String,
+        municipioregida : String,
+        barriorecogida :  String,
+        lugarentrega    : String,
+        municipioentrega :String,
+        barrioentrega    :String,
+        datoscliente     :String,
+        peso             :number,
+        idproveedor: number
+    } = req.body;
+
+    const validaschema =  Joi.object({        
+        lugarrecogida :   Joi.string().required(),
+        municipioregida : Joi.string().required(),
+        barriorecogida :  Joi.string().required(),
+        lugarentrega    : Joi.string().required(),
+        municipioentrega :Joi.string().required(),
+        barrioentrega    :Joi.string().required(),
+        datoscliente     :Joi.string().required(),
+        peso             :Joi.number().min(0.1).required(),
+        idproveedor: Joi.number().required()
+    });
+    let valid = validaschema.validate(paquet);
+    
+    if(valid.error) throw new Error("Error: data "+valid.error);
+
     next();
 }
 

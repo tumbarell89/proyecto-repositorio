@@ -6,12 +6,21 @@ import { equal } from "joi";
 import { isNumberObject } from "util/types";
 class Paquete {
     
-    addpaquete = async (paquete: paquete): Promise<paquete>=> {
-        
+    addpaquete = async (paquetenuevo: paquete): Promise<paquete>=> { 
         let rep =await prisma.paquete.create({
-            data:{    
-            }});
-        return rep;                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+            data:{   
+                lugarrecogida :   paquetenuevo.lugarrecogida,
+                municipioregida : paquetenuevo.municipioregida,
+                barriorecogida :  paquetenuevo.barriorecogida,
+                lugarentrega    : paquetenuevo.lugarentrega,
+                municipioentrega :paquetenuevo.municipioentrega,
+                barrioentrega    :paquetenuevo.barrioentrega,
+                datoscliente     :paquetenuevo.datoscliente,
+                peso             :paquetenuevo.peso,
+                idproveedor  :paquetenuevo.idproveedor
+            }
+        });
+        return rep;                                                                                                                                                                                                                                                                                                                                                                                                                                                       
     }
 
     listarpaquetes = async (idpaquete: number|null): Promise<paquete[]> => {
@@ -23,7 +32,11 @@ class Paquete {
                     idpaquete: id
                 },
                 include: {
-                    envio:true,
+                    envio: {
+                        include:{
+                            repartidor:true
+                        }
+                    },
                     nomestadopaquete:true,
                     proveedor: true
                 }

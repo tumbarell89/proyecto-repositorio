@@ -12,9 +12,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = require("../index");
 class Paquete {
     constructor() {
-        this.addpaquete = (paquete) => __awaiter(this, void 0, void 0, function* () {
+        this.addpaquete = (paquetenuevo) => __awaiter(this, void 0, void 0, function* () {
             let rep = yield index_1.prisma.paquete.create({
-                data: {}
+                data: {
+                    lugarrecogida: paquetenuevo.lugarrecogida,
+                    municipioregida: paquetenuevo.municipioregida,
+                    barriorecogida: paquetenuevo.barriorecogida,
+                    lugarentrega: paquetenuevo.lugarentrega,
+                    municipioentrega: paquetenuevo.municipioentrega,
+                    barrioentrega: paquetenuevo.barrioentrega,
+                    datoscliente: paquetenuevo.datoscliente,
+                    peso: paquetenuevo.peso,
+                    idproveedor: paquetenuevo.idproveedor
+                }
             });
             return rep;
         });
@@ -27,7 +37,11 @@ class Paquete {
                         idpaquete: id
                     },
                     include: {
-                        envio: true,
+                        envio: {
+                            include: {
+                                repartidor: true
+                            }
+                        },
                         nomestadopaquete: true,
                         proveedor: true
                     }
