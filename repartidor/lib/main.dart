@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:repartidor/BusquedaEnvio.dart';
 import 'package:repartidor/BusquedaPaquete.dart';
+import 'package:repartidor/ProveedorMain.dart';
+import 'package:repartidor/RepartidorMain.dart';
 
 void main() {
   runApp(const Repartidor());
@@ -48,10 +50,10 @@ class RepartidorBusqueda extends StatelessWidget{
             BusquedaEnvio(),
 
             // Contenido de la Pestaña 3
-            Center(child: Text('Contenido Pestaña 3')),
+            RepartidorMain(),
 
             // Contenido de la Pestaña 4
-            Center(child: Text('Contenido Pestaña 4')),
+            ProveedorMain(),
           ],
         ),
       ),
