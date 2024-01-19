@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:repartidor/BusquedaEnvio.dart';
 import 'package:repartidor/BusquedaPaquete.dart';
-import 'package:repartidor/ProveedorMain.dart';
-import 'package:repartidor/RepartidorMain.dart';
+import 'package:repartidor/Proveedor/ProveedorMain.dart';
+import 'package:repartidor/Repartidor/RepartidorMain.dart';
 
 void main() {
   runApp(const Repartidor());
